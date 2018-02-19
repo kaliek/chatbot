@@ -1,0 +1,3 @@
+[submodule "adam_qas"]
+	path = adam_qas
+	url = git@github.com:kaliek/adam_qas.git
