@@ -1,3 +1,6 @@
 [submodule "adam_qas"]
 	path = adam_qas
 	url = git@github.com:kaliek/adam_qas.git
+[submodule "neuralcoref"]
+	path = neuralcoref
+	url = git@github.com:kaliek/neuralcoref.git
