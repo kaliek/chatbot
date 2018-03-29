@@ -121,3 +121,7 @@ pyvenv.cfg
 # End of https://www.gitignore.io/api/venv,python
 token.txt
 googlemap_api.txt
+.RData
+.Rhistory
+.vscode/
+old/
