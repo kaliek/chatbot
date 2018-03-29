@@ -4,3 +4,6 @@
 [submodule "neuralcoref"]
 	path = neuralcoref
 	url = git@github.com:kaliek/neuralcoref.git
+[submodule "QuestionParser"]
+	path = QuestionParser
+	url = git@github.com:kaliek/QuestionParser.git
