@@ -120,3 +120,4 @@ pyvenv.cfg
 .DS_Store
 # End of https://www.gitignore.io/api/venv,python
 token.txt
+googlemap_api.txt
