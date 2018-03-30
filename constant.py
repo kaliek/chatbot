@@ -48,7 +48,7 @@ class SUBJ(Enumnum):
     NSUBJPASS   = "nsubjpass"
 
 class OBJT(Enumnum):
-    ATTR        = "attr"
+    # ATTR        = "attr" comment it because wh-head is categorised under this
     DOBJ        = "dobj"
     IOBJ        = "iobj"
     OPRD        = "oprd"

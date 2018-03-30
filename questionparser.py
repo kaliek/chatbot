@@ -35,6 +35,7 @@ class QuestionParser():
         self.dep_elements = []
         self.root_pos = ""
         self.noun_phrases = []
+        self.nsubj = ""
         self.noun_chunks = []
         self.neck = ""
         self.neck_label = ""
@@ -45,8 +46,10 @@ class QuestionParser():
         self.has_num = False
         self.type = ""
         self.structure = []
+    
 
         self.loc_entity = []
+        self.per_entity = []
 
 
     def preprocess(self):
@@ -97,9 +100,16 @@ class QuestionParser():
             if SUBJ.has_value(word.dep_) or OBJT.has_value(word.dep_) or NOUN.has_value(word.dep_) or PREP.has_value(word.dep_):
                 yield word.subtree
     
+    def iter_nsubj(self):
+        for word in self.question_doc:
+            if word.dep_ == "nsubj":
+                yield word.subtree
+
     def extract_noun_phrase(self):
         for st in self.iter_nps():
             self.noun_phrases.append(" ".join(t.text for t in st))
+        for st in self.iter_nsubj():
+            self.nsubj = " ".join(t.text for t in st)
 
     def extract_noun_chunk(self):
         for nc in self.question_doc.noun_chunks:
@@ -111,6 +121,7 @@ class QuestionParser():
             self.entity_label.append(ent.label_)
             if PER.has_value(ent.label_):
                 self.has_per = True
+                self.per_entity.append(ent.text)
             elif LOC.has_value(ent.label_):
                 self.has_loc = True
                 self.loc_entity.append(ent.text)
@@ -193,9 +204,12 @@ class QuestionParser():
     
     def get_noun_phrase(self):
         return self.noun_phrases
+    
+    def get_nsubj(self):
+        return self.nsubj
 
     def get_noun_chunk(self):
-        return self.noun_chunk
+        return self.noun_chunks
     
     def get_entity(self):
         return self.entity
@@ -212,22 +226,26 @@ class QuestionParser():
     def get_loc_entity(self):
         return self.loc_entity
 
+    def get_per_entity(self):
+        return self.per_entity
+
     def get_has(self, string):
         return 1 if getattr(self, 'has_' + string) else 0
     
     def string(self, l):
         return "|".join(l)
 
-def main():
-    question = "Wherw is china?"
-    qpp = QuestionParser(question)
-    qpp.preprocess()
-    print(qpp.get_type())
+# def main():
+#     question = "Wherw is burger king near me?"
+#     qpp = QuestionParser(question)
+#     qpp.preprocess()
+#     print(qpp.get_type())
+#     print(qpp.get_entity())
 
 
-def run():
-    main()
+# def run():
+#     main()
 
 
-if __name__ == "__main__":
-    run()
+# if __name__ == "__main__":
+#     run()

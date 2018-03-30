@@ -2,8 +2,8 @@ import sys
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 import telegram
 from telegram import KeyboardButton
-from loc import get_lat_lng
 from questionparser import QuestionParser
+from smartanswer import SmartAnswer
 
 # from chatterbot import ChatBot
 # chatbot = ChatBot(
@@ -48,14 +48,20 @@ def information_reply(bot, update):
     # bot.send_message(chat_id=update.message.chat_id, text=status_msg)
     question = " ".join(message.split()[1:])
     print(question)
-    qp = QuestionParser(question)
-    qp.preprocess()
-    e_loc = qp.get_loc_entity()
-    print(qp.get_type())
-    if e_loc and qp.get_type() == 'LOC':
-        cood = get_lat_lng(" ".join(e_loc))
-        bot.sendLocation(chat_id=update.message.chat_id, latitude=cood[0], longitude=cood[1])
-    else: update.message.reply_text(qp.get_type())
+    sans = SmartAnswer(question)
+    loc = sans.is_loc_answer()
+    if loc: 
+        bot.sendLocation(chat_id=update.message.chat_id, latitude=loc[0], longitude=loc[1])
+    else:
+        hum = sans.is_hum_answer()
+        if hum: update.message.reply_text(hum)
+        else: 
+            wiki = sans.is_wiki_answer()
+            if wiki:
+                print("replying wiki: ")
+                for w in wiki:
+                update.message.reply_text(w) 
+            else: update.message.reply_text(sans.get_type())
     
 
 def error_handler(error):
