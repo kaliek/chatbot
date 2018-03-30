@@ -125,3 +125,4 @@ googlemap_api.txt
 .Rhistory
 .vscode/
 old/
+*.obj
